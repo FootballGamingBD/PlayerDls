@@ -2,7 +2,7 @@ let allPlayersData = [];
 const imageCache = new Map(); // ইমেজ ফাস্ট করার জন্য মেমোরি ক্যাশ
 
 // গিটহাবের মেইন লিংক
-const baseUrl = "https://raw.githubusercontent.com/FootballGamingBD/PlayerDls/main/";
+const baseUrl = "https://raw.githubusercontent.com/FootballGamingBD/PlayerDls/main/Data/Player.json";
 const jsonUrl = baseUrl + "Data/Player.json"; 
 
 // ফন্ট লোড করা
