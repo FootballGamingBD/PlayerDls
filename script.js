@@ -1,6 +1,6 @@
 let allPlayersData = []; 
 
-// গিটহাবের মেইন লিংক এবং JSON ফাইলের ডাইরেক্ট লিংক
+// গিটহাবের মেইন লিংক এবং আপনার সঠিক JSON ফাইলের লিংক
 const baseUrl = "https://raw.githubusercontent.com/FootballGamingBD/PlayerDls/main/";
 const jsonUrl = baseUrl + "Data/Player.json"; 
 
@@ -130,7 +130,7 @@ async function displayPlayers(playerList) {
     }
 }
 
-// লাইভ সার্চ ফিল্টার (গ্লোবাল স্কোপে রাখা হয়েছে যেন ব্লগারে কাজ করে)
+// লাইভ সার্চ ফিল্টার 
 window.filterPlayers = function() {
     const searchTerm = document.getElementById('cardSearch').value.toLowerCase();
     const filtered = allPlayersData.filter(player => player.name.toLowerCase().includes(searchTerm));
@@ -148,7 +148,7 @@ async function initCardGenerator() {
     } catch (error) {
         console.error("ডাটা লোড হতে সমস্যা:", error);
         const grid = document.getElementById('playerGrid');
-        if(grid) grid.innerHTML = "<p style='color: red;'>গিটহাব থেকে ডাটাবেস কানেক্ট করা যায়নি।</p>";
+        if(grid) grid.innerHTML = "<p style='color: red;'>গিটহাব থেকে ডাটাবেস কানেক্ট করা যায়নি। JSON লিংক চেক করুন।</p>";
     }
 }
 
