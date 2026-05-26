@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FootballGamingBD Card Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="controls">
+        <input type="text" id="playerName" placeholder="Enter Player Name">
+        <input type="number" id="rating" placeholder="Rating">
+        
+        <select id="cardType">
+            <option value="Legendary">Legendary</option>
+            <option value="Champion">Champion</option>
+            <option value="Dream star 25">Dream Star 25</option>
+            <!-- বাকিগুলো এখানে যোগ করুন -->
+        </select>
+
+        <label>
+            <input type="checkbox" id="isMax"> Max Card
+        </label>
+
+        <button onclick="generateCard()">Generate Card</button>
+    </div>
+
+    <canvas id="cardCanvas" width="2000" height="2000"></canvas>
+
+    <script src="script.js"></script>
+</body>
+</html>
+async function generateCard() {
+    const canvas = document.getElementById('cardCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    // ইনপুট ভ্যালু নেওয়া
+    const type = document.getElementById('cardType').value;
+    const isMax = document.getElementById('isMax').checked;
+    const rating = document.getElementById('rating').value;
+    const name = document.getElementById('playerName').value;
+
+    // ফাইল পাথ গঠন (আপনার গিটহাব স্ট্রাকচার অনুযায়ী)
+    const maxStatus = isMax ? "max" : "non max";
+    const bgPath = `Assets/CardBG/${type} ${maxStatus} card.png`;
+    const borderPath = `Assets/Cardborder/${type} ${maxStatus} border.png`;
+    
+    // রেটিং সার্কেল লজিক
+    const ratingRange = rating >= 90 ? "90_1000" : (rating >= 80 ? "80_89" : "70_79");
+    const circlePath = `Assets/rating circle/${isMax ? 'Max' : 'NonMax'}_${ratingRange}.png`;
+
+    // ইমেজ লোড করা
+    const bg = await loadImage(bgPath);
+    const border = await loadImage(borderPath);
+    const circle = await loadImage(circlePath);
+
+    // ড্রয়িং
+    ctx.clearRect(0, 0, 2000, 2000);
+    ctx.drawImage(bg, 0, 0, 2000, 2000);
+    ctx.drawImage(border, 0, 0, 2000, 2000);
+    ctx.drawImage(circle, 400, 250, 400, 400); // পজিশন আপনার কার্ড অনুযায়ী অ্যাডজাস্ট করুন
+
+    // নাম লেখা
+    ctx.fillStyle = "white";
+    ctx.font = "bold 120px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText(name, 1000, 1500);
+}
+
+function loadImage(src) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.src = src;
+    });
+}
