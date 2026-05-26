@@ -41,7 +41,7 @@ async function drawCard(player, canvas) {
         if(bg) ctx.drawImage(bg, 0, 0, 2000, 2000);
 
         const playerImg = await loadImage(baseUrl + `Assets/Players/${player.id}`);
-        if(playerImg) ctx.drawImage(playerImg, 450, 200, 1100, 1100);
+        if(playerImg) ctx.drawImage(playerImg, 450, 200, 1200, 1200);
 
         const border = await loadImage(baseUrl + `Assets/Cardborder/${player.cardType} ${status} border.png`);
         if(border) ctx.drawImage(border, 0, 0, 2000, 2000);
