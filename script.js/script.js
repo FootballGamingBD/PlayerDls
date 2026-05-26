@@ -4,20 +4,20 @@ let allPlayersData = [];
 const baseUrl = "https://raw.githubusercontent.com/FootballGamingBD/PlayerDls/main/";
 const jsonUrl = baseUrl + "Data/Player.json/Playee.json"; 
 
-// কাস্টম ফন্ট লোড করার ফাংশন
+// কাস্টম DLS ফন্ট লোড করার ফাংশন
 async function loadCustomFont() {
     const fontUrl = 'https://cdn.jsdelivr.net/gh/FootballGamingBD/Dls@main/dls_font.ttf';
     const myFont = new FontFace('DLSFont', `url(${fontUrl})`);
     try {
         const loadedFont = await myFont.load();
         document.fonts.add(loadedFont);
-        console.log("DLS Font Loaded Successfully!");
+        console.log("DLS Font Loaded!");
     } catch (err) {
         console.error("Font loading failed: ", err);
     }
 }
 
-// ইমেজ লোড করার ফাংশน
+// ইমেজ লোড করার ফাংশন
 async function loadImage(src) {
     return new Promise((resolve) => {
         const img = new Image();
@@ -92,11 +92,11 @@ async function drawCard(player, canvas) {
         ctx.fillStyle = "white";
         ctx.textAlign = "center";
         
-        // প্লেয়ার নাম (কাস্টম ফন্ট)
+        // প্লেয়ার নাম
         ctx.font = "bold 140px DLSFont, Arial";
         ctx.fillText(player.name, 1000, 1300);
         
-        // রেটিং নাম্বার (কাস্টম ফন্ট - সার্কেলের ঠিক মাঝখানে)
+        // রেটিং নাম্বার
         ctx.font = "bold 130px DLSFont, Arial";
         ctx.fillText(player.rating, 450, 460); 
         
@@ -130,52 +130,27 @@ async function displayPlayers(playerList) {
     }
 }
 
-// লাইভ সার্চ ফিল্টার
+// লাইভ সার্চ ফিল্টার (গ্লোবাল স্কোপে রাখা হয়েছে যেন ব্লগারে কাজ করে)
 window.filterPlayers = function() {
     const searchTerm = document.getElementById('cardSearch').value.toLowerCase();
     const filtered = allPlayersData.filter(player => player.name.toLowerCase().includes(searchTerm));
     displayPlayers(filtered);
 }
 
-// গিটহাব থেকে ডাটা নিয়ে আসার ফাংশন
-async function fetchFromGitHub() {
-    await loadCustomFont(); // প্রথমে কাস্টম ফন্ট লোড হবে
+// গিটহাব থেকে ডাটা নিয়ে আসার মেইন ফাংশন
+async function initCardGenerator() {
+    await loadCustomFont(); 
     try {
         const response = await fetch(jsonUrl);
-        if (!response.ok) throw new Error("Network response was not ok");
-        
+        if (!response.ok) throw new Error("Network error");
         allPlayersData = await response.json(); 
         displayPlayers(allPlayersData); 
     } catch (error) {
-        console.error("গিটহাব থেকে ডাটা আসতে সমস্যা:", error);
+        console.error("ডাটা লোড হতে সমস্যা:", error);
         const grid = document.getElementById('playerGrid');
-        if(grid) grid.innerHTML = "<p style='color: red;'>গিটহাব থেকে ডাটা লোড হতে সমস্যা হচ্ছে।</p>";
+        if(grid) grid.innerHTML = "<p style='color: red;'>গিটহাব থেকে ডাটাবেস কানেক্ট করা যায়নি।</p>";
     }
 }
 
-// ইনিশিয়ালাইজ করা
-fetchFromGitHub();
-    const status = player.isMax ? "max" : "non max";
-    
-    // আপনার গিটহাবের অ্যাসেট লিংক এখানে বসাবেন (ফুল URL দিলে ভালো)
-    const baseUrl = "https://raw.githubusercontent.com/আপনার-ইউজারনেম/আপনার-রিপোজিটরির-নাম/main/";
-    
-    const bg = await loadImage(baseUrl + `Assets/CardBG/${player.cardType} ${status} card.png`);
-    // বাকি ইমেজগুলো একইভাবে...
-    
-    ctx.drawImage(bg, 0, 0, 2000, 2000);
-    // ... আপনার আগের ড্রয়িং কোডগুলো এখানে বসান
-}
-
-// ড্রপডাউন পপুলেট
-function loadPlayerList() {
-    const selector = document.getElementById('playerSelector');
-    players.forEach((player, index) => {
-        let option = document.createElement("option");
-        option.value = index;
-        option.text = player.name;
-        selector.add(option);
-    });
-}
-
-loadPlayerList();
+// রান করা
+initCardGenerator();
