@@ -2,7 +2,7 @@ let allPlayersData = [];
 
 // গিটহাবের মেইন লিংক এবং JSON ফাইলের ডাইরেক্ট লিংক
 const baseUrl = "https://raw.githubusercontent.com/FootballGamingBD/PlayerDls/main/";
-const jsonUrl = baseUrl + "Data/Player.json/Playee.json"; 
+const jsonUrl = baseUrl + "Data/Player.json"; 
 
 // কাস্টম DLS ফন্ট লোড করার ফাংশন
 async function loadCustomFont() {
